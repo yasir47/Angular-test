@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+  </head>
+  <body>
+    <div ng-app="MyApp" ng-controller="testC">
+      <label>Name:</label>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName}}!</h1>
+      <script>
+          var app = angular.module("MyApp",[]);
+          app.controller('testC',function($scope,$http){
+              $scope.yourName = 'test';
+             $scope.first = "";
+             $scope.last = "";
+             $scope.No1 = 0;
+             $scope.No2 = 0;
+              $scope.fullname = function(){
+                return  $scope.first + " " + $scope.last ;
+              }
+              $http.get("http://www.w3schools.com/angular/customers.php").success(function(res){
+                  $scope.names1 = res.records; 
+              })
+              
+              
+          });
+      </script>
+      <ul>
+          <li ng-repeat = "x in names1">
+              {{ x.Name + " " + x.Country }}
+          </li>
+      </ul>
+      <input type="text" ng-model="No1">
+      <input type="text" ng-model="No2">
+      <p>{{ No1 * No2 }}</p>
+      
+      
+      <div ng-init = "names=[
+{name:'Jani',country:'Norway'},
+{name:'Hege',country:'Sweden'},
+{name:'Kai',country:'Denmark'}]">
+<input type="text" ng-model="test">
+          <ul>
+              <li ng-repeat="x in names | filter:test | orderBy :'country' ">
+                  {{ x.name + ' ' + x.country }}
+              </li>
+          </ul>
+      </div>
+      <input type="text" ng-model="first">
+      <input type="text" ng-model="last">
+      <p>{{ fullname() }}</p>
+    </div>
+  </body>
+</html>
